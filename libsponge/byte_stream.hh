@@ -17,7 +17,44 @@ class ByteStream {
     // that's a sign that you probably want to keep exploring
     // different approaches.
 
-    bool _error{};  //!< Flag indicating that the stream suffered an error.
+    // only one buffer -> write into buffer and read from buffer.
+    // no stream??
+
+    // design a data structure for data buffer
+    // char* _stream; // byte stream: design a circle array
+
+    // static const int LEN = 1000; // the len of stream
+
+    // buffer store the bytes
+    // writer write bytes into buffer; reader read bytes from buffer
+    char *_buffer{nullptr};
+
+    // write position in the buffer
+    size_t buffer_write_ptr{0};
+    // read position in the buffer
+    size_t buffer_read_ptr{0};
+
+    // int bytes_in_stream{0}; // the bytes in the stream
+
+    // the number of valid bytes in the buffer
+    size_t bytes_in_buffer{0};
+
+    // the capacity of the buffer
+    size_t _capacity{0};
+
+    // total number of written bytes
+    size_t write_bytes_num{0};
+
+    // total number of read bytes
+    size_t read_bytes_num{0};
+
+    // int stream_write_ptr{-1}; // the position of byte written next
+
+    // int stream_read_ptr{-1}; // the position of byte read next
+
+    bool _eof{false};  // indicating the end of the stream
+
+    bool _error{false};  //!< Flag indicating that the stream suffered an error.
 
   public:
     //! Construct a stream with room for `capacity` bytes.
@@ -32,6 +69,7 @@ class ByteStream {
     size_t write(const std::string &data);
 
     //! \returns the number of additional bytes that the stream has space for
+
     size_t remaining_capacity() const;
 
     //! Signal that the byte stream has reached its ending
@@ -53,6 +91,8 @@ class ByteStream {
 
     //! Read (i.e., copy and then pop) the next "len" bytes of the stream
     //! \returns a string
+
+    // read the len bytes from stream to buffer
     std::string read(const size_t len);
 
     //! \returns `true` if the stream input has ended
