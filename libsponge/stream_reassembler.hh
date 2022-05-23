@@ -14,6 +14,13 @@ class StreamReassembler {
 
     ByteStream _output;  //!< The reassembled in-order byte stream
     size_t _capacity;    //!< The maximum number of bytes
+	size_t _next_idx{0}; // the index of next byte that need to write into stream
+	char* unassemble_buffer{nullptr}; // store the unassembled byte
+	bool* occupied{nullptr}; // indicating if the particular position in the buffer has valid byte 
+	size_t begin{0}; // indicating the begin of the buffer
+	size_t end{0}; // indicating the end of the buffer
+	bool _eof{false}; // indicating the end of the entire stream
+	size_t buffer_bytes{0}; // indicating the bytes number in the buffer
 
   public:
     //! \brief Construct a `StreamReassembler` that will store up to `capacity` bytes.
