@@ -1,6 +1,7 @@
 #include "byte_stream.hh"
 
 #include <string.h>
+#include <string>
 // Dummy implementation of a flow-controlled in-memory byte stream.
 
 // For Lab 0, please replace with a real implementation that passes the
@@ -24,7 +25,9 @@ size_t ByteStream::write(const string &data) {
     //    return {};
     size_t len = 0;
     // 4. need to consider the len of data!!!
-    size_t data_len = strlen(data.c_str());
+    // 5. from: lab1 strlen function will be invalid when the data has '\0'
+    // size_t data_len = strlen(data.c_str());
+    size_t data_len = data.size();
     while (len < data_len && remaining_capacity() > 0) {  // still has data to write and still has space for new bytes
         _buffer[buffer_write_ptr] = data[len++];          // write the one byte
         write_bytes_num++;                                // total written bytes add
